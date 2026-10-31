@@ -15,6 +15,8 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Dynamic state for editable pass details
+  const [name, setName] = useState('Kiran Kataria');
+  const [employeeId, setEmployeeId] = useState('2872183');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
   const [startDate, setStartDate] = useState('1st Oct, 2026');
@@ -29,12 +31,16 @@ export default function App() {
   useEffect(() => {
     const loadSavedData = async () => {
       try {
+        const savedName = await AsyncStorage.getItem('@name');
+        const savedEmployeeId = await AsyncStorage.getItem('@employeeId');
         const savedOfficeIn = await AsyncStorage.getItem('@officeIn');
         const savedOfficeOut = await AsyncStorage.getItem('@officeOut');
         const savedStartDate = await AsyncStorage.getItem('@startDate');
         const savedEndDate = await AsyncStorage.getItem('@endDate');
         const savedDarkMode = await AsyncStorage.getItem('@isDarkMode');
 
+        if (savedName !== null) setName(savedName);
+        if (savedEmployeeId !== null) setEmployeeId(savedEmployeeId);
         if (savedOfficeIn !== null) setOfficeIn(savedOfficeIn);
         if (savedOfficeOut !== null) setOfficeOut(savedOfficeOut);
         if (savedStartDate !== null) setStartDate(savedStartDate);
@@ -52,6 +58,8 @@ export default function App() {
   const handleSaveDetails = async () => {
     setEditModalVisible(false); // Close the modal
     try {
+      await AsyncStorage.setItem('@name', name);
+      await AsyncStorage.setItem('@employeeId', employeeId);
       await AsyncStorage.setItem('@officeIn', officeIn);
       await AsyncStorage.setItem('@officeOut', officeOut);
       await AsyncStorage.setItem('@startDate', startDate);
@@ -63,11 +71,7 @@ export default function App() {
   };
 
   // Dynamic QR Data
-  const qrData = `Name: Kiran Kataria
-  Employee ID: 2872183
-  Stop: Thane Stn. E Kopari
-  Route: Both
-  Valid: ${startDate} to ${endDate}`;
+  const qrData = `Name: ${name}\nEmployee ID: ${employeeId}\nStop: Thane Stn. E Kopari\nRoute: Both\nValid: ${startDate} to ${endDate}`;
 
   // Theme Object to handle Light/Dark colors dynamically
   const theme = {
@@ -92,15 +96,16 @@ export default function App() {
     { id: '7', title: 'Logout', icon: 'logout', family: 'MaterialIcons' },
   ];
 
-  const renderIcon = (family, name, color) => {
+  const renderIcon = (family, iconName, color) => {
     const size = 20;
-    if (family === 'MaterialIcons') return <MaterialIcons name={name} size={size} color={color} />;
-    if (family === 'FontAwesome5') return <FontAwesome5 name={name} size={size} color={color} />;
-    return <Ionicons name={name} size={size} color={color} />;
+    if (family === 'MaterialIcons') return <MaterialIcons name={iconName} size={size} color={color} />;
+    if (family === 'FontAwesome5') return <FontAwesome5 name={iconName} size={size} color={color} />;
+    return <Ionicons name={iconName} size={size} color={color} />;
   };
 
   const handlePinSubmit = () => {
-    if (pinInput === '2872183') {
+    // Allows either the currently set Employee ID or the default PIN as a master key
+    if (pinInput === employeeId || pinInput === '2872183') {
       setPinModalVisible(false);
       setPinInput('');
       setTimeout(() => setEditModalVisible(true), 300);
@@ -155,7 +160,7 @@ export default function App() {
 
     {/* DETAILS / QR CARD */}
     <View style={[styles.detailsCard, { backgroundColor: theme.cardBg }]}>
-    {/* CONCAVE ARC CUTOUT TRICK - Background matches current theme */}
+    {/* CONCAVE ARC CUTOUT TRICK */}
     <View style={styles.greenCorner} />
     <View style={[styles.greenCornerCutout, { backgroundColor: theme.cardBg }]} />
 
@@ -167,11 +172,11 @@ export default function App() {
       <View style={styles.infoRow}>
       <View style={styles.infoColumn}>
       <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Name</Text>
-      <Text style={[styles.infoValue, { color: theme.textPrimary }]}>Kiran Kataria</Text>
+      <Text style={[styles.infoValue, { color: theme.textPrimary }]}>{name}</Text>
       </View>
       <View style={[styles.infoColumn, { alignItems: 'flex-end' }]}>
       <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Employee ID</Text>
-      <Text style={[styles.infoValue, { color: theme.textPrimary }]}>2872183</Text>
+      <Text style={[styles.infoValue, { color: theme.textPrimary }]}>{employeeId}</Text>
       </View>
       </View>
 
@@ -206,7 +211,6 @@ export default function App() {
       <View style={styles.qrContainer}>
       <QRCode
       value={qrData}
-      // Reduced height constraint from 0.42 to 0.38 to compensate for footer padding
       size={Math.min(width - 90, height * 0.38)}
       color="black"
       backgroundColor="white"
@@ -251,7 +255,7 @@ export default function App() {
       setTimeout(() => setPinModalVisible(true), 300);
     }}
     >
-    <Text style={styles.sidebarHeaderName}>Hi, Kiran Kataria</Text>
+    <Text style={styles.sidebarHeaderName}>Hi, {name}</Text>
     </TouchableOpacity>
 
     <ScrollView style={styles.menuList}>
@@ -296,8 +300,15 @@ export default function App() {
     {/* HIDDEN EDIT MODAL */}
     <Modal visible={editModalVisible} transparent={true} animationType="slide">
     <View style={styles.centeredView}>
-    <View style={[styles.inputModalView, { backgroundColor: theme.modalBg }]}>
+    <View style={[styles.inputModalView, { backgroundColor: theme.modalBg, maxHeight: '80%' }]}>
+    <ScrollView showsVerticalScrollIndicator={false}>
     <Text style={[styles.modalTitle, { color: theme.textTitle }]}>Edit Pass Data</Text>
+
+    <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Name</Text>
+    <TextInput style={[styles.inputField, { backgroundColor: theme.inputBg, color: theme.textPrimary, borderColor: theme.borderColor }]} value={name} onChangeText={setName} />
+
+    <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Employee ID</Text>
+    <TextInput style={[styles.inputField, { backgroundColor: theme.inputBg, color: theme.textPrimary, borderColor: theme.borderColor }]} value={employeeId} onChangeText={setEmployeeId} keyboardType="numeric" />
 
     <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Start Date</Text>
     <TextInput style={[styles.inputField, { backgroundColor: theme.inputBg, color: theme.textPrimary, borderColor: theme.borderColor }]} value={startDate} onChangeText={setStartDate} />
@@ -325,6 +336,7 @@ export default function App() {
     <TouchableOpacity style={styles.primaryButton} onPress={handleSaveDetails}>
     <Text style={styles.primaryButtonText}>Save Details</Text>
     </TouchableOpacity>
+    </ScrollView>
     </View>
     </View>
     </Modal>
@@ -365,7 +377,6 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif',
     marginLeft: 15
   },
-  // Tightened spacing to save vertical room
   scrollContent: { padding: 15, paddingBottom: 5 },
   routeCard: { borderRadius: 8, padding: 15, marginBottom: 10, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3 },
   routeTop: { alignItems: 'center', marginBottom: 12 },
@@ -374,11 +385,8 @@ const styles = StyleSheet.create({
   routeBottom: { flexDirection: 'row', justifyContent: 'space-between' },
   timeText: { color: '#fff', fontSize: 16, fontWeight: '500', fontFamily: 'sans-serif' },
   detailsCard: { borderRadius: 8, padding: 15, elevation: 3, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2, position: 'relative', overflow: 'hidden' },
-
-  /* CONCAVE ARC STYLES */
   greenCorner: { position: 'absolute', top: 0, left: 0, width: 75, height: 75, backgroundColor: '#1E9D28' },
   greenCornerCutout: { position: 'absolute', top: 0, left: 0, width: 75, height: 75, borderTopLeftRadius: 75 },
-
   confirmedTitle: { textAlign: 'center', fontSize: 22, fontWeight: '600', marginBottom: 8, marginTop: 2, fontFamily: 'sans-serif' },
   dashedLine: { height: 1, borderWidth: 1, borderStyle: 'dashed', marginBottom: 12 },
   infoGrid: { marginBottom: 15 },
@@ -391,7 +399,6 @@ const styles = StyleSheet.create({
   qrContainer: { alignItems: 'center', justifyContent: 'center', paddingVertical: 0, marginBottom: 12 },
   primaryButton: { backgroundColor: '#52369C', paddingVertical: 12, borderRadius: 4, alignItems: 'center' },
   primaryButtonText: { color: '#fff', fontSize: 14, fontWeight: '500', fontFamily: 'sans-serif' },
-  // Footer padding maintained at 45 for Android Nav Bar safety
   footer: { alignItems: 'center', paddingTop: 5, paddingBottom: 45 },
   customFooterLogo: { width: 200, height: 50 },
   modalOverlay: { flex: 1, flexDirection: 'row' },
@@ -408,7 +415,6 @@ const styles = StyleSheet.create({
                                  menuItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 13, paddingHorizontal: 20 },
                                  menuIconContainer: { width: 30, alignItems: 'flex-start' },
                                  menuItemText: { fontSize: 15, fontFamily: 'sans-serif' },
-
                                  centeredView: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)' },
                                  inputModalView: { width: '85%', borderRadius: 10, padding: 25, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 },
                                  modalTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 20, fontFamily: 'sans-serif', textAlign: 'center' },
