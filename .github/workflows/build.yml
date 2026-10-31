@@ -19,7 +19,9 @@ jobs:
         run: npm install
 
       - name: Generate Native iOS Folder
-        run: npx expo prebuild --platform ios --clean
+        run: |
+          npx expo prebuild --platform ios --clean --no-install
+          npm install
 
       - name: Build Unsigned App
         working-directory: ios
