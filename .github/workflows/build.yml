@@ -35,7 +35,7 @@ jobs:
             -scheme "$SCHEME" \
             -sdk iphoneos \
             -configuration Release \
-            CONFIGURATION_BUILD_DIR="$(pwd)/build" \
+            -derivedDataPath derivedData \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
@@ -43,7 +43,7 @@ jobs:
       - name: Package IPA
         run: |
           mkdir -p Payload
-          mv ios/build/*.app Payload/
+          mv ios/derivedData/Build/Products/Release-iphoneos/*.app Payload/
           zip -r app.ipa Payload
 
       - name: Upload Artifact
