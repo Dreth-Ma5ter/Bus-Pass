@@ -30,7 +30,7 @@ jobs:
           WORKSPACE=$(ls | grep '\.xcworkspace' | head -1)
           SCHEME=$(ls | grep '\.xcodeproj' | head -1 | sed 's/\.xcodeproj//')
           
-          xcodebuild clean build \
+          xcodebuild build \
             -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
             -sdk iphoneos \
