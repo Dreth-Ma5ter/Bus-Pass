@@ -27,9 +27,12 @@ jobs:
       - name: Build Unsigned App
         working-directory: ios
         run: |
+          WORKSPACE=$(ls | grep '\.xcworkspace' | head -1)
+          SCHEME=$(ls | grep '\.xcodeproj' | head -1 | sed 's/\.xcodeproj//')
+          
           xcodebuild clean build \
-            -workspace eTMS.xcworkspace \
-            -scheme eTMS \
+            -workspace "$WORKSPACE" \
+            -scheme "$SCHEME" \
             -sdk iphoneos \
             -configuration Release \
             CONFIGURATION_BUILD_DIR="$(pwd)/build" \
