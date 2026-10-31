@@ -1,0 +1,50 @@
+name: Build Unsigned Expo IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Native iOS Folder
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Build Unsigned App
+        working-directory: ios
+        run: |
+          WORKSPACE=$(ls | grep .xcworkspace | head -1)
+          SCHEME=$(basename "$WORKSPACE" .xcworkspace)
+          
+          xcodebuild clean build \
+            -workspace "$WORKSPACE" \
+            -scheme "$SCHEME" \
+            -sdk iphoneos \
+            -configuration Release \
+            CONFIGURATION_BUILD_DIR="$(pwd)/build" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          mv ios/build/*.app Payload/
+          zip -r app.ipa Payload
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Expo-App-IPA
+          path: app.ipa
