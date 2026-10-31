@@ -50,3 +50,9 @@ jobs:
         with:
           name: Expo-App-IPA
           path: app.ipa
+
+      - name: Generate Native iOS Folder
+        run: |
+          npx expo prebuild --platform ios --clean --no-install
+          npm install
+          cd ios && pod install
