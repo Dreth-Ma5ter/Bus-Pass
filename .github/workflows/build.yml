@@ -22,16 +22,14 @@ jobs:
         run: |
           npx expo prebuild --platform ios --clean --no-install
           npm install
+          npx pod-install ios
 
       - name: Build Unsigned App
         working-directory: ios
         run: |
-          WORKSPACE=$(ls | grep .xcworkspace | head -1)
-          SCHEME=$(basename "$WORKSPACE" .xcworkspace)
-          
           xcodebuild clean build \
-            -workspace "$WORKSPACE" \
-            -scheme "$SCHEME" \
+            -workspace eTMS.xcworkspace \
+            -scheme eTMS \
             -sdk iphoneos \
             -configuration Release \
             CONFIGURATION_BUILD_DIR="$(pwd)/build" \
@@ -50,9 +48,3 @@ jobs:
         with:
           name: Expo-App-IPA
           path: app.ipa
-
-      - name: Generate Native iOS Folder
-        run: |
-          npx expo prebuild --platform ios --clean --no-install
-          npm install
-          cd ios && pod install
