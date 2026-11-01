@@ -255,7 +255,7 @@ export default function App() {
       setTimeout(() => setPinModalVisible(true), 300);
     }}
     >
-    <Text style={styles.sidebarHeaderName}>, {name}</Text>
+    <Text style={styles.sidebarHeaderName}>Hi, {name}</Text>
     </TouchableOpacity>
 
     <ScrollView style={styles.menuList}>
