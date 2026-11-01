@@ -13,7 +13,7 @@ export default function App() {
   const [showQR, setShowQR] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [name, setName] = useState('Sarvesh Chavam');
+  const [name, setName] = useState('Sarvesh Chavan');
   const [employeeId, setEmployeeId] = useState('2872046');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
