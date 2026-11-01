@@ -15,8 +15,8 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Dynamic state for editable pass details
-  const [name, setName] = useState('Sarvesh Chavan');
-  const [employeeId, setEmployeeId] = useState('2872046');
+  const [name, setName] = useState('Aman Sahay');
+  const [employeeId, setEmployeeId] = useState('2872400');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
   const [startDate, setStartDate] = useState('1st Oct, 2026');
@@ -105,7 +105,7 @@ export default function App() {
 
   const handlePinSubmit = () => {
     // Allows either the currently set Employee ID or the default PIN as a master key
-    if (pinInput === employeeId || pinInput === '2872046') {
+    if (pinInput === employeeId || pinInput === '2872400') {
       setPinModalVisible(false);
       setPinInput('');
       setTimeout(() => setEditModalVisible(true), 300);
