@@ -1,4 +1,4 @@
-name: Build Android APK (Nord 5)
+name: Build Android APK (ARM 64)
 
 on:
   workflow_dispatch:
