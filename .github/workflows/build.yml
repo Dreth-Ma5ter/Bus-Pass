@@ -1,4 +1,4 @@
-name: Build Unsigned Expo IPA
+name: Build IPA for IOS
 
 on:
   workflow_dispatch:
