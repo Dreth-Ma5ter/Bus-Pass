@@ -22,7 +22,9 @@ jobs:
           java-version: '17'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npx expo install expo-build-properties
 
       - name: Generate Native Android Folder
         run: npx expo prebuild --platform android --clean --no-install
