@@ -15,8 +15,8 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Dynamic state for editable pass details
-  const [name, setName] = useState('Kiran Kataria');
-  const [employeeId, setEmployeeId] = useState('2872183');
+  const [name, setName] = useState('Sarvesh Chavan');
+  const [employeeId, setEmployeeId] = useState('2872046');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
   const [startDate, setStartDate] = useState('1st Oct, 2026');
@@ -105,7 +105,7 @@ export default function App() {
 
   const handlePinSubmit = () => {
     // Allows either the currently set Employee ID or the default PIN as a master key
-    if (pinInput === employeeId || pinInput === '2872183') {
+    if (pinInput === employeeId || pinInput === '2872046') {
       setPinModalVisible(false);
       setPinInput('');
       setTimeout(() => setEditModalVisible(true), 300);
@@ -213,7 +213,7 @@ export default function App() {
       value={qrData}
       size={Math.min(width - 90, height * 0.38)}
       color="black"
-      backgroundColor="white"
+      backgroundColor="wte"
       />
       </View>
     )}
@@ -255,7 +255,7 @@ export default function App() {
       setTimeout(() => setPinModalVisible(true), 300);
     }}
     >
-    <Text style={styles.sidebarHeaderName}>Hi, {name}</Text>
+    <Text style={styles.sidebarHeaderName}>, {name}</Text>
     </TouchableOpacity>
 
     <ScrollView style={styles.menuList}>
@@ -272,7 +272,7 @@ export default function App() {
     </View>
     </Modal>
 
-    {/* HIDDEN PIN MODAL */}
+    {/* DDEN PIN MODAL */}
     <Modal visible={pinModalVisible} transparent={true} animationType="slide">
     <View style={styles.centeredView}>
     <View style={[styles.inputModalView, { backgroundColor: theme.modalBg }]}>
@@ -297,7 +297,7 @@ export default function App() {
     </View>
     </Modal>
 
-    {/* HIDDEN EDIT MODAL */}
+    {/* DDEN EDIT MODAL */}
     <Modal visible={editModalVisible} transparent={true} animationType="slide">
     <View style={styles.centeredView}>
     <View style={[styles.inputModalView, { backgroundColor: theme.modalBg, maxHeight: '80%' }]}>
