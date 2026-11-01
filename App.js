@@ -13,8 +13,8 @@ export default function App() {
   const [showQR, setShowQR] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [name, setName] = useState('Akshara Shaji');
-  const [employeeId, setEmployeeId] = useState('2878233');
+  const [name, setName] = useState('Sarvesh Chavam');
+  const [employeeId, setEmployeeId] = useState('2872046');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
   const [startDate, setStartDate] = useState('1st Nov, 2026');
@@ -169,7 +169,7 @@ export default function App() {
   };
 
   const handlePinSubmit = () => {
-    if (pinInput === employeeId || pinInput === '2878233') {
+    if (pinInput === employeeId || pinInput === '2872046') {
       setPinModalVisible(false);
       setPinInput('');
       setTimeout(() => setEditModalVisible(true), 300);
