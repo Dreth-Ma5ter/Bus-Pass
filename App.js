@@ -17,8 +17,8 @@ export default function App() {
   const [employeeId, setEmployeeId] = useState('2872400');
   const [officeIn, setOfficeIn] = useState('10:20');
   const [officeOut, setOfficeOut] = useState('20:45');
-  const [startDate, setStartDate] = useState('1st Oct, 2026');
-  const [endDate, setEndDate] = useState('31st Oct, 2026');
+  const [startDate, setStartDate] = useState('1st Nov, 2026');
+  const [endDate, setEndDate] = useState('30th Nov, 2026');
   const [pinModalVisible, setPinModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [pinInput, setPinInput] = useState('');
