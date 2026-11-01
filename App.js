@@ -507,9 +507,6 @@ export default function App() {
                 )}
               </View>
 
-              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Name</Text>
-              <TextInput style={[styles.inputField, { backgroundColor: theme.inputBg, color: theme.textPrimary, borderColor: theme.borderColor }]} value={name} onChangeText={setName} />
-              
               <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Employee ID</Text>
               <TextInput style={[styles.inputField, { backgroundColor: theme.inputBg, color: theme.textPrimary, borderColor: theme.borderColor }]} value={employeeId} onChangeText={setEmployeeId} keyboardType="numeric" />
 
